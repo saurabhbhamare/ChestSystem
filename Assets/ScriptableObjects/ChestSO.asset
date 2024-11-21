@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d33be38d9af7b04eaedec323f9022c6, type: 3}
+  m_Name: ChestSO
+  m_EditorClassIdentifier: 
+  chests:
+  - ChestType: 0
+    ChestClosedImage: {fileID: 1801245148, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
+    ChestOpenedImage: {fileID: -531019086, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
+    UnlockTime: 5
+    Coins: {x: 0, y: 0}
+    Gems: {x: 0, y: 0}
+  - ChestType: 1
+    ChestClosedImage: {fileID: -1667945682, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
+    ChestOpenedImage: {fileID: -866637619, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
+    UnlockTime: 10
+    Coins: {x: 0, y: 0}
+    Gems: {x: 0, y: 0}
+  - ChestType: 2
+    ChestClosedImage: {fileID: -1633908774, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
+    ChestOpenedImage: {fileID: -1327936667, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
+    UnlockTime: 15
+    Coins: {x: 0, y: 0}
+    Gems: {x: 0, y: 0}
+  - ChestType: 0
+    ChestClosedImage: {fileID: -1453735919, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
+    ChestOpenedImage: {fileID: -344300808, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
+    UnlockTime: 20
+    Coins: {x: 0, y: 0}
+    Gems: {x: 0, y: 0}
