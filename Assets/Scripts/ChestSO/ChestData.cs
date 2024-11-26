@@ -4,10 +4,11 @@ using UnityEngine;
 [System.Serializable]
 public class ChestData 
 {
-    [Header("ChestType")]
+    public string chestName;
     public ChestType chestType;
-    [Header("Sprites")]
     public Sprite chestClosedImage;
-    [Header("Chest Unlock Time")]
+    public Sprite chestOpenedImage;
     public float unlockTime;
+    public int coins;
+    public int gems;
 }

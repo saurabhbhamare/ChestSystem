@@ -15,4 +15,10 @@ public class EventController<T>
     public void RemoveListener(Action<T> listener) => baseEvent += listener;
     public void Invoke(T type) => baseEvent?.Invoke(type);
 }
-
+public class EventController<T1,T2>
+{
+    private event Action<T1,T2> baseEvent;
+    public void AddListener(Action<T1,T2> listener) => baseEvent += listener;
+    public void RemoveListener(Action<T1,T2> listener) => baseEvent += listener;
+    public void Invoke(T1 type1,T2 type2) => baseEvent?.Invoke(type1,type2);
+}

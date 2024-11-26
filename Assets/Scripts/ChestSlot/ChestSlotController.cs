@@ -11,8 +11,10 @@ public class ChestSlotController
     public ChestSlotController(ChestSlotView chestSlotView,EventService eventService)
     {
         this.chestSlotView = chestSlotView;
+        this.chestSlotView.SetChestSlotController(this);
         this.eventService = eventService;
         SetChestSlotState(ChestSlotState.EMPTY);
+        chestSlotView.SetChestSlotStatusText("Empty Slot");
     }
     public Transform GetChestTransformParent()
     {
@@ -32,6 +34,13 @@ public class ChestSlotController
         this.chestController = chestController;
         SetChestSlotState(ChestSlotState.FILLED);
     }
-
     public bool IsChestSlotEmpty() => chestSlotState == ChestSlotState.EMPTY;
+    public void OnChestClick(ChestController chestController) => eventService.OnChestClick.Invoke(chestController);
+    public ChestController GetChestController() => chestController;
+    public void RemoveChest()
+    {
+        SetChestSlotState(ChestSlotState.EMPTY);
+        GetChestController().RemoveGameObject();
+        chestSlotView.SetChestSlotStatusText("Empty");
+    }
 }

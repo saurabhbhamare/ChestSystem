@@ -7,6 +7,7 @@ public class ChestView : MonoBehaviour
     [SerializeField] private Image chestImage;
     [SerializeField] private TextMeshProUGUI chestName;
     [SerializeField] private TextMeshProUGUI chestStatus;
+
     private ChestController chestController;
 
     public void SetChestImage(Sprite chestSprite) => this.chestImage.sprite = chestSprite;
