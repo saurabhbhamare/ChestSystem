@@ -20,8 +20,6 @@ public class ChestController
         //SetChestName();
         CreateChestStateMachine();
         ChangeChestState(ChestStates.LOCKED);
-         
-
     }
     public ChestSlotController GetChestSlotController()
     {
@@ -47,11 +45,18 @@ public class ChestController
             chestView.SetChestName("RARE");
         }
     }
-    private void CreateChestStateMachine()
-    {
-        Debug.Log("Create state machine ");
-        chestStateMachine = new ChestStateMachine(this);
-    }
+
+    //public void StartUnlocking(ChestService chestService, float unlockTime)
+    //{
+    //    chestView.StartCoroutine(UnlockTimerCoroutine(chestService, unlockTime));
+    //}
+
+    //private IEnumerator UnlockTimerCoroutine(ChestService chestService, float unlockTime)
+    //{
+    //    yield return new WaitForSeconds(unlockTime);
+    //    chestService.OnChestUnlockFinished(this);
+    //}
+    private void CreateChestStateMachine() => chestStateMachine = new ChestStateMachine(this);
     public void ChangeChestState(ChestStates state) => chestStateMachine.ChangeChestState(state);
     public void RemoveGameObject() => GameObject.Destroy(chestView.gameObject);
 }

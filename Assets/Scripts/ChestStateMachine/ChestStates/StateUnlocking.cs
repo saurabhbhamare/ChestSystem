@@ -18,7 +18,8 @@ public class StateUnlocking : IState
 
     public void OnStateExit()
     {
-        Owner.chestView.StopCoroutine(StartUnlockTimer());
+      //  Owner.chestView.StopCoroutine(StartUnlockTimer());
+        Owner.chestView.StopAllCoroutines();
     }
 
     public void Update()
@@ -37,5 +38,7 @@ public class StateUnlocking : IState
         }
         //Owner.chestView.SetChestStatusText("Unlocked!"); 
         chestStateMachine.ChangeChestState(ChestStates.UNLOCKED);
+        
+        //Owner.ChangeChestState(ChestStates.UNLOCKED);
     }
 }
