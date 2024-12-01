@@ -10,9 +10,8 @@ public class ChestModel
     public float UnlockTime { get; private set; }
     public float CurrentUnlockTime { get; private set; }
 
+    public int GemsAmoundToOpen;
     public string ChestName { get; private set;}
-  //  public float CurrentUnlockTime { get; private set; }
-    
     public ChestModel(ChestData chestData)
     {
         this.ChestType = chestData.chestType;
@@ -20,6 +19,7 @@ public class ChestModel
         this.ChestOpenedImage = chestData.chestOpenedImage;
         this.UnlockTime = chestData.unlockTime;
         this.ChestName = chestData.chestName;
+        this.GemsAmoundToOpen = chestData.gems;
         CurrentUnlockTime = UnlockTime;
     }
     

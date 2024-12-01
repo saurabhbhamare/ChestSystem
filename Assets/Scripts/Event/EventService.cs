@@ -1,38 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
+using System;
 public class EventService 
 {
     public EventController OnGenerateButtonPressed;
-    public EventController<ChestController> OnChestClick;
-    public EventController<int, int> OnAddingCoinsAndGems;
-    public EventController<int> OnRemovingGems;
-    public EventController<int> SetGemsButtonAmount;
-    public EventController<string> SetTimeButtonText;
-    public EventController OnGemsButtonClick;
-    public EventController OnTimeButtonClick;
+    public EventController <ChestController> OnChestClick;
+    public EventController OnTimeUnlockButtonClicked;
     public EventController<string, string> ShowNotificationBox;
-    public EventController<string, string> ShowLockedStateNotificationBox;
-    public EventController<string, string> ShowUnlockingStateNotificationBox;
-    public EventController<int, int> ShowRewardsPanel;
-    public EventController<ChestController> EnqueueChest;
-    public EventController DequeueChest;
+    public EventController<int> SetGemsButtonAmount;
+    public EventController<ChestController> OnLockedChestClicked;
+    public EventController OnQueuedChestClicked;
+    public EventController<ChestController> OnUnlockingChestClicked;
+    public EventController<ChestController> OnUnlockedChestClicked;
+    public EventController<int, Action<bool>> OnCheckGemBalance;
+    public EventController<int> OnDeductGems;
+    public EventController OnGemsButtonClicked;
+    public EventController<ChestController> OnRemovingChest;
+
+    //rewards
+    public EventController<int, int> OnGenerateRewards;
     public EventService()
     {
         OnGenerateButtonPressed = new EventController();
         OnChestClick = new EventController<ChestController>();
-        OnAddingCoinsAndGems = new EventController<int, int>();
-        OnRemovingGems = new EventController<int>();
         SetGemsButtonAmount = new EventController<int>();
-        SetTimeButtonText = new EventController<string>();
-        OnGemsButtonClick = new EventController();
-        OnTimeButtonClick = new EventController();
-        ShowNotificationBox = new EventController<string, string>();
-        ShowLockedStateNotificationBox = new EventController<string, string>();
-        ShowUnlockingStateNotificationBox = new EventController<string, string>();
-        ShowRewardsPanel = new EventController<int, int>();
-        EnqueueChest = new EventController<ChestController>();
-        DequeueChest = new EventController();
+        OnLockedChestClicked = new EventController<ChestController>();
+        OnTimeUnlockButtonClicked = new EventController();
+        OnCheckGemBalance = new EventController<int, Action<bool>>();
+        OnDeductGems = new EventController<int>();
+        OnGemsButtonClicked = new EventController();
+        OnGenerateRewards = new EventController<int, int>();
+        OnUnlockedChestClicked = new EventController<ChestController>();
+        OnRemovingChest = new EventController<ChestController>();
+        OnUnlockingChestClicked = new EventController<ChestController>();
+        //   ShowNotificationBox = new EventController<string, string>();
+
     }
 }

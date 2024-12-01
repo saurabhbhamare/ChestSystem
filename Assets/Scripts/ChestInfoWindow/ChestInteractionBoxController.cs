@@ -11,77 +11,46 @@ public class ChestInteractionBoxController
     {
         this.eventService = eventService;
         this.chestInteractionBoxView = chestInteractionBoxView;
-        this.chestInteractionBoxView.Init(eventService, this);
+        this.chestInteractionBoxView.Init(eventService, this); 
         RegisterEventListeners();
     }
     private void RegisterEventListeners()
     {
-        eventService.ShowNotificationBox.AddListener(ShowInteractionBox);
-        eventService.ShowLockedStateNotificationBox.AddListener(ShowLockedStateNotificationBox);
-        eventService.ShowUnlockingStateNotificationBox.AddListener(ShowUnlockingStateNotificationBox);
-        eventService.OnGemsButtonClick.AddListener(DisableNotificationView);
-        eventService.OnTimeButtonClick.AddListener(DisableNotificationView);
-        eventService.ShowRewardsPanel.AddListener(ShowRewardsBox);
+        // eventService.OnChestClick.AddListener(ShowLockedStateNotificationPanel);
+        eventService.OnLockedChestClicked.AddListener(ShowLockedStateNotificationPanel);
+        eventService.OnUnlockingChestClicked.AddListener(ShowUnlockingStateNotificationPanel);
     }
-    private void ShowInteractionBox(string title,string message)
+    public void ShowLockedStateNotificationPanel(ChestController chestController)
     {
-
         chestInteractionBoxView.gameObject.SetActive(true);
-        chestInteractionBoxView.SetMessageBoxActive(true);
-        chestInteractionBoxView.SetNotificationTitle(title);
-        chestInteractionBoxView.SetNotificationMessage(message);
-        chestInteractionBoxView.SetRewardsPanelActive(false);
-        chestInteractionBoxView.DisableButtons();
-
-    }
-    private void ShowLockedStateNotificationBox(string title, string message)
-    {
-        chestInteractionBoxView.DisableButtons();
-        chestInteractionBoxView.gameObject.SetActive(true);
-        chestInteractionBoxView.SetMessageBoxActive(true);
-        chestInteractionBoxView.SetNotificationTitle(title);
-        chestInteractionBoxView.SetNotificationMessage(message);
-        chestInteractionBoxView.SetRewardsPanelActive(false);
-        chestInteractionBoxView.EnableGemsButton();
         chestInteractionBoxView.EnableTimeButton();
+        chestInteractionBoxView.SetTimeButtonText(chestController.chestModel.UnlockTime.ToString()+" Sec ");
+        chestInteractionBoxView.SetNotificationTitle(chestController.chestModel.ChestType.ToString());
+        chestInteractionBoxView.SetGemsButtonText(chestController.chestModel.GemsAmoundToOpen);
+        
+        //Debug.Log("CHEST IS IN  " + chestController.GetChestState().ToString());
+       // chestInteractionBoxView.SetGemsButtonText(chestController.g)
+       
     }
-
-    private void ShowUnlockingStateNotificationBox(string title, string message)
-    {
-        chestInteractionBoxView.DisableButtons();
-        chestInteractionBoxView.gameObject.SetActive(true);
-        chestInteractionBoxView.SetMessageBoxActive(true);
-        chestInteractionBoxView.SetNotificationTitle(title);
-        chestInteractionBoxView.SetNotificationMessage(message);
-        chestInteractionBoxView.SetRewardsPanelActive(false);
-        chestInteractionBoxView.EnableGemsButton();
-    }
-
-    private void ShowRewardsBox(int coinsAmount, int gemsAmount)
+    public void ShowUnlockingStateNotificationPanel(ChestController chestController)
     {
         chestInteractionBoxView.gameObject.SetActive(true);
-        chestInteractionBoxView.SetRewardsPanelActive(true);
-        chestInteractionBoxView.SetMessageBoxActive(false);
-        chestInteractionBoxView.SetNotificationTitle("You Received");
-        chestInteractionBoxView.SetRewardCoinsText(coinsAmount);
-        chestInteractionBoxView.SetRewardGemsText(gemsAmount);
-        chestInteractionBoxView.DisableButtons();
+        chestInteractionBoxView.SetGemsButtonText(chestController.chestModel.GemsAmoundToOpen);
+        chestInteractionBoxView.DisableTimeButton();
+        //chestController.ChangeChestState(ChestStates.UNLOCKED);
+        
     }
+    public void ShowUnlockedStateNotification()
+    { 
 
-    public void DisableNotificationView() => chestInteractionBoxView.gameObject.SetActive(false);
-
-    private void UnsubscribeEvents()
+    }
+    public void ShowqueuedStateNotification()
     {
-        eventService.ShowNotificationBox.RemoveListener(ShowInteractionBox);
-        eventService.ShowLockedStateNotificationBox.RemoveListener(ShowLockedStateNotificationBox);
-        eventService.ShowUnlockingStateNotificationBox.RemoveListener(ShowUnlockingStateNotificationBox);
-        eventService.OnGemsButtonClick.RemoveListener(DisableNotificationView);
-        eventService.OnTimeButtonClick.RemoveListener(DisableNotificationView);
-        eventService.ShowRewardsPanel.RemoveListener(ShowRewardsBox);
-    }
 
-    ~ChestInteractionBoxController()
-    {
-        UnsubscribeEvents();
     }
+    public void OnTimeButtonClick()
+    {
+
+    }
+    public void DisableNotificationPanel() => chestInteractionBoxView.gameObject.SetActive(false);
 }

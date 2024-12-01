@@ -19,25 +19,25 @@ MonoBehaviour:
     chestOpenedImage: {fileID: -531019086, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
     unlockTime: 15
     coins: 0
-    gems: 0
+    gems: 20
   - chestName: Rare
     chestType: 1
     chestClosedImage: {fileID: -1667945682, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
     chestOpenedImage: {fileID: -866637619, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
     unlockTime: 30
     coins: 0
-    gems: 0
+    gems: 40
   - chestName: Epic
     chestType: 2
     chestClosedImage: {fileID: -1633908774, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
     chestOpenedImage: {fileID: -1327936667, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
     unlockTime: 45
     coins: 0
-    gems: 0
+    gems: 60
   - chestName: Legendary
     chestType: 3
     chestClosedImage: {fileID: -1453735919, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
     chestOpenedImage: {fileID: -344300808, guid: bfdabf508d3f45b45ace1da67f73edbe, type: 3}
     unlockTime: 60
     coins: 0
-    gems: 0
+    gems: 100

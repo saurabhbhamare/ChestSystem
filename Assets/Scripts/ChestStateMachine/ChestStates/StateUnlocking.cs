@@ -13,25 +13,29 @@ public class StateUnlocking : IState
 
     public void OnStateEnter()
     {
-        Owner.chestView.StartCoroutine(StartTimer());
+        Owner.chestView.StartCoroutine(StartUnlockTimer());
     }
 
     public void OnStateExit()
     {
-        Owner.chestView.StopCoroutine(StartTimer());
+        Owner.chestView.StopCoroutine(StartUnlockTimer());
     }
 
     public void Update()
     {
     }
-    private IEnumerator StartTimer()
+    private IEnumerator StartUnlockTimer()
     {
-        while(Owner.chestModel.CurrentUnlockTime>0 && chestStateMachine.GetCurrentState()== ChestStates.UNLOCKING)
+        float remainingTime = Owner.chestModel.UnlockTime;
+        while(remainingTime>0)
         {
-        //    Mathf.Max(Owner.chestModel.CurrentUnlockTime -= Time.deltaTime, 0);
-            this.Owner.chestView.SetChestStatus(string.Format("{0:00}:{1:00}:{2:00}", Mathf.FloorToInt(Owner.chestModel.CurrentUnlockTime / 3600),
-            Mathf.FloorToInt((Owner.chestModel.CurrentUnlockTime % 3600) / 60), Mathf.FloorToInt(Owner.chestModel.CurrentUnlockTime % 60)));
-            yield return new WaitForEndOfFrame();
+             Owner.chestView.SetChestStatus(string.Format("{0:00}:{1:00}", Mathf.FloorToInt(remainingTime / 60), Mathf.FloorToInt(remainingTime % 60)));
+     //    Owner..SetChestStatus(string.Format("{0:00}:{1:00}", Mathf.FloorToInt(remainingTime / 60), Mathf.FloorToInt(remainingTime % 60)));
+            yield return new WaitForSeconds(1);
+            remainingTime -= 1;
+
         }
+        //Owner.chestView.SetChestStatusText("Unlocked!"); 
+        chestStateMachine.ChangeChestState(ChestStates.UNLOCKED);
     }
 }

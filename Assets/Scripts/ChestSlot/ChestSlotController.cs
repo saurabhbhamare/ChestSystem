@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChestSlotController 
 {
-    private ChestSlotView chestSlotView;
+    public ChestSlotView chestSlotView;
     private EventService eventService;
     private ChestSlotState chestSlotState;
     private ChestController chestController;
@@ -16,16 +16,16 @@ public class ChestSlotController
         SetChestSlotState(ChestSlotState.EMPTY);
         chestSlotView.SetChestSlotStatusText("Empty Slot");
     }
+    private void RegisterEventListeners()
+    {
+       // eventService.OnRemovingChest.AddListener(RemoveChest);
+        eventService.OnUnlockedChestClicked.AddListener(RemoveChest);
+    }
     public Transform GetChestTransformParent()
     {
         return chestSlotView.transform;
     }
-    public void SetSlotFillStatus(bool status)
-    {
-     //   isEmpty = status;
-    }
-    
-    private void SetChestSlotState(ChestSlotState chestSlotState)
+    public void SetChestSlotState(ChestSlotState chestSlotState)
     {
         this.chestSlotState = chestSlotState;
     }
@@ -35,12 +35,24 @@ public class ChestSlotController
         SetChestSlotState(ChestSlotState.FILLED);
     }
     public bool IsChestSlotEmpty() => chestSlotState == ChestSlotState.EMPTY;
-    public void OnChestClick(ChestController chestController) => eventService.OnChestClick.Invoke(chestController);
     public ChestController GetChestController() => chestController;
-    public void RemoveChest()
+    public void RemoveChest(ChestController chestController)
     {
+        Debug.Log("current in RemoveChest");
         SetChestSlotState(ChestSlotState.EMPTY);
-        GetChestController().RemoveGameObject();
+        //GetChestController().RemoveGameObject();
+        chestController.RemoveGameObject();
         chestSlotView.SetChestSlotStatusText("Empty");
     }
+    public void OnChestClick()
+    {
+        //eventService.ShowNotificationBox.Invoke(chestController.chestModel.ChestType.ToString(), chestController.GetChestState().ToString());
+        eventService.OnChestClick.Invoke(this.chestController);
+       
+    }
+    public ChestSlotView GetChestSlotView()
+    {
+        return chestSlotView;
+    }
+
 }

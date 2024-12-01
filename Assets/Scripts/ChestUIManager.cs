@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 public class ChestUIManager : MonoBehaviour
 {
     [SerializeField] private int coins;
@@ -13,6 +14,7 @@ public class ChestUIManager : MonoBehaviour
     [SerializeField] private ChestSO chestSO;
     [SerializeField] private ChestView chestView;
     [SerializeField] private ChestInteractionBoxView chestInteractionBoxView;
+  //  [SerializeField] private GameObject msgBox;
     [SerializeField] private int queueCount;
 
     [Header("ChestSlots")]
@@ -23,19 +25,25 @@ public class ChestUIManager : MonoBehaviour
     private ChestService chestService;
     private EventService eventService;
 
+
   //  private UserInteractionService;
     private void Start()
     {
         InitAllChestUIElements();
     } 
-
+ 
     private void InitAllChestUIElements()
     {
-      
+        coinsText.text = coins.ToString();
+        gemsText.text = gems.ToString();
         eventService = new EventService();
         chestInteractionBoxController = new ChestInteractionBoxController(eventService,chestInteractionBoxView);
         chestService = new ChestService(chestSlots, chestSO, chestView, eventService);
         generateChestButton.onClick.AddListener(OnGenerateButtonClick);
+        eventService.OnDeductGems.AddListener(DeductGems);
+        eventService.OnCheckGemBalance.AddListener(CheckGemBalance);
+        eventService.OnGenerateRewards.AddListener(AddRewards);
+        //RegisterEventListeners();
     }
     private void OnGenerateButtonClick()
     {
@@ -46,4 +54,28 @@ public class ChestUIManager : MonoBehaviour
     {
         
     }
+    private void CheckGemBalance(int requiredGems, Action<bool> responseCallback)
+    { 
+        bool hasEnoughGems = gems >= requiredGems; 
+        Debug.Log($"Checking if player has enough gems: {gems} available, {requiredGems} required"); responseCallback.Invoke(hasEnoughGems); 
+    }
+    private void DeductGems(int amount)
+    {
+        gems -= amount;
+        gemsText.text = gems.ToString();
+    }
+    private void UpdateGems(int newGemCount)
+    {
+        gems = newGemCount; 
+        gemsText.text = gems.ToString();
+    }
+    private void AddRewards(int coins , int gems)
+    {
+        this.coins += coins;
+        this.gems += gems;
+        UpdateCoinsText(); 
+        UpdateGemsText();
+    }
+    private void UpdateCoinsText() { coinsText.text = coins.ToString(); }
+    private void UpdateGemsText() { gemsText.text = gems.ToString(); }
 }
