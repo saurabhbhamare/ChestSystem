@@ -15,7 +15,7 @@ public class ChestSlotView : MonoBehaviour, IPointerClickHandler
     public ChestSlotController GetChestSlotController() => chestSlotController;
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("clicked on the empty slot ");
+        //Debug.Log("clicked on the empty slot ");
         chestSlotController.OnChestClick(); 
     }
     public void SetChestSlotStatusText(string statusText)

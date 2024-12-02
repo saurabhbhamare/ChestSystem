@@ -18,7 +18,6 @@ public class StateUnlocking : IState
 
     public void OnStateExit()
     {
-      //  Owner.chestView.StopCoroutine(StartUnlockTimer());
         Owner.chestView.StopAllCoroutines();
     }
 
@@ -31,14 +30,13 @@ public class StateUnlocking : IState
         while(remainingTime>0)
         {
              Owner.chestView.SetChestStatus(string.Format("{0:00}:{1:00}", Mathf.FloorToInt(remainingTime / 60), Mathf.FloorToInt(remainingTime % 60)));
-     //    Owner..SetChestStatus(string.Format("{0:00}:{1:00}", Mathf.FloorToInt(remainingTime / 60), Mathf.FloorToInt(remainingTime % 60)));
             yield return new WaitForSeconds(1);
             remainingTime -= 1;
 
         }
-        //Owner.chestView.SetChestStatusText("Unlocked!"); 
         chestStateMachine.ChangeChestState(ChestStates.UNLOCKED);
-        
-        //Owner.ChangeChestState(ChestStates.UNLOCKED);
+        Owner.ChangeChestState(ChestStates.UNLOCKED);
+        Owner.eventService.OnChestUnlockFinished.Invoke(Owner);
+
     }
 }

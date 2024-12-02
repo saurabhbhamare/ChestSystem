@@ -18,7 +18,7 @@ public class EventService
     public EventController<int> OnDeductGems;
     public EventController OnGemsButtonClicked;
     public EventController<ChestController> OnRemovingChest;
-
+    public EventController<ChestController> OnChestUnlockFinished;
     //rewards
     public EventController<int, int> OnGenerateRewards;
     public EventService()
@@ -35,7 +35,7 @@ public class EventService
         OnUnlockedChestClicked = new EventController<ChestController>();
         OnRemovingChest = new EventController<ChestController>();
         OnUnlockingChestClicked = new EventController<ChestController>();
-        //   ShowNotificationBox = new EventController<string, string>();
+        OnChestUnlockFinished = new EventController<ChestController>();
 
     }
 }

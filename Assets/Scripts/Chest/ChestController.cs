@@ -7,6 +7,7 @@ public class ChestController
     public ChestView chestView;
     public ChestModel chestModel;
     private ChestSlotController chestSlotController;
+    public EventService eventService;
 
     //chest state machine
 
@@ -16,10 +17,12 @@ public class ChestController
     {
         chestModel = new ChestModel(chestData);
         this.chestView = GameObject.Instantiate<ChestView>(chestView, parentTransform);
+        this.eventService = eventService;
         this.chestSlotController = chestSlotController;
         //SetChestName();
         CreateChestStateMachine();
         ChangeChestState(ChestStates.LOCKED);
+        this.chestView.SetChestStatus("Locked");
     }
     public ChestSlotController GetChestSlotController()
     {
@@ -45,17 +48,6 @@ public class ChestController
             chestView.SetChestName("RARE");
         }
     }
-
-    //public void StartUnlocking(ChestService chestService, float unlockTime)
-    //{
-    //    chestView.StartCoroutine(UnlockTimerCoroutine(chestService, unlockTime));
-    //}
-
-    //private IEnumerator UnlockTimerCoroutine(ChestService chestService, float unlockTime)
-    //{
-    //    yield return new WaitForSeconds(unlockTime);
-    //    chestService.OnChestUnlockFinished(this);
-    //}
     private void CreateChestStateMachine() => chestStateMachine = new ChestStateMachine(this);
     public void ChangeChestState(ChestStates state) => chestStateMachine.ChangeChestState(state);
     public void RemoveGameObject() => GameObject.Destroy(chestView.gameObject);

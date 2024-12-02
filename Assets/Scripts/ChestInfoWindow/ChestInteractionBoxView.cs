@@ -23,10 +23,10 @@ public class ChestInteractionBoxView : MonoBehaviour
     private void OnEnable()
     {
         RegisterEventListeners();
-        OnButtonClick();
+        //OnButtonClick();
 
         notificationCloseButton.onClick.AddListener(OnClosePanelClick);
-        notificationTimeButton.onClick.AddListener(OnTimeButtonClick);
+      //  notificationTimeButton.onClick.AddListener(OnTimeButtonClick);
         //notificationCloseButton.onClick.AddListener();
     }
     public void Init(EventService eventService, ChestInteractionBoxController chestInteractionBoxController)
