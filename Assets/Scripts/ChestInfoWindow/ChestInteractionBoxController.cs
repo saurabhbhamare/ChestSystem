@@ -24,7 +24,7 @@ public class ChestInteractionBoxController
     {
         chestInteractionBoxView.gameObject.SetActive(true);
         chestInteractionBoxView.EnableTimeButton();
-        chestInteractionBoxView.SetTimeButtonText(chestController.chestModel.UnlockTime.ToString()+" Sec ");
+        chestInteractionBoxView.SetTimeButtonText(chestController.chestModel.UnlockTime.ToString()+" Seconds");
         chestInteractionBoxView.SetNotificationTitle(chestController.chestModel.ChestType.ToString());
         chestInteractionBoxView.SetGemsButtonText(chestController.chestModel.GemsAmoundToOpen);
         
