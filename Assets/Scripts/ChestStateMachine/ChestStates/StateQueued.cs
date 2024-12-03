@@ -10,19 +10,10 @@ public class StateQueued : IState
     {
         this.chestStateMachine = chestStateMachine;
     }
-
     public void OnStateEnter()
     {
         Owner.chestView.SetChestStatus("Queued");
     }
-
-    public void OnStateExit()
-    {
-        
-    }
-
-    public void Update()
-    {
-    }
+    public void OnStateExit() { }
+    public void Update() { }
 }
- 

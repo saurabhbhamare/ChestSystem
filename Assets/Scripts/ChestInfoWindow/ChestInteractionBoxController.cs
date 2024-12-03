@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestInteractionBoxController 
+public class ChestInteractionBoxController
 {
     private EventService eventService;
     private ChestInteractionBoxView chestInteractionBoxView;
@@ -11,7 +11,7 @@ public class ChestInteractionBoxController
     {
         this.eventService = eventService;
         this.chestInteractionBoxView = chestInteractionBoxView;
-        this.chestInteractionBoxView.Init(eventService, this); 
+        this.chestInteractionBoxView.Init(eventService, this);
         RegisterEventListeners();
     }
     private void RegisterEventListeners()
@@ -24,15 +24,15 @@ public class ChestInteractionBoxController
     {
         chestInteractionBoxView.gameObject.SetActive(true);
         chestInteractionBoxView.EnableTimeButton();
-        chestInteractionBoxView.SetTimeButtonText(chestController.chestModel.UnlockTime.ToString()+" Seconds");
+        chestInteractionBoxView.SetTimeButtonText(chestController.chestModel.UnlockTime.ToString() + " Seconds");
         chestInteractionBoxView.SetNotificationTitle(chestController.chestModel.ChestType.ToString());
-        chestInteractionBoxView.SetGemsButtonText(chestController.chestModel.GemsAmoundToOpen.ToString()+" Gems");
+        chestInteractionBoxView.SetGemsButtonText(chestController.chestModel.GemsAmoundToOpen.ToString() + " Gems");
     }
     public void ShowUnlockingStateNotificationPanel(ChestController chestController)
     {
         chestInteractionBoxView.gameObject.SetActive(true);
-        chestInteractionBoxView.SetGemsButtonText(chestController.chestModel.GemsAmoundToOpen.ToString()+"Gems");
-        chestInteractionBoxView.DisableTimeButton(); 
+        chestInteractionBoxView.SetGemsButtonText(chestController.chestModel.GemsAmoundToOpen.ToString() + "Gems");
+        chestInteractionBoxView.DisableTimeButton();
     }
     public void ShowUnlockedStateNotification()
     {

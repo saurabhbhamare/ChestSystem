@@ -16,37 +16,31 @@ public class ChestUIManager : MonoBehaviour
     [SerializeField] private ChestInteractionBoxView chestInteractionBoxView;
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private GameObject messageBox;
-    //  [SerializeField] private GameObject msgBox;
     [SerializeField] private int queueCount;
 
     [Header("ChestSlots")]
     [SerializeField] ChestSlotView[] chestSlots;
-    //scripts
 
     private ChestInteractionBoxController chestInteractionBoxController;
     private ChestService chestService;
     private EventService eventService;
-
-
-  //  private UserInteractionService;
     private void Start()
     {
         InitAllChestUIElements();
-    } 
- 
+    }
+
     private void InitAllChestUIElements()
     {
         coinsText.text = coins.ToString();
         gemsText.text = gems.ToString();
         eventService = new EventService();
-        chestInteractionBoxController = new ChestInteractionBoxController(eventService,chestInteractionBoxView);
+        chestInteractionBoxController = new ChestInteractionBoxController(eventService, chestInteractionBoxView);
         chestService = new ChestService(chestSlots, chestSO, chestView, eventService);
         RegisterEventListeners();
     }
     private void OnGenerateButtonClick()
     {
         eventService.OnGenerateButtonPressed.Invoke();
-        Debug.Log("invoked Ongeneratepress");
     }
     private void RegisterEventListeners()
     {
@@ -56,30 +50,28 @@ public class ChestUIManager : MonoBehaviour
         eventService.OnGenerateRewards.AddListener(AddRewards);
         eventService.OnGenerateRewards.AddListener(SetRewardsMessage);
     }
-    private void OnDisable()
+    private void UnRegisterEventListeners()
     {
-        
+        generateChestButton.onClick.RemoveListener(OnGenerateButtonClick);
+        eventService.OnDeductGems.RemoveListener(DeductGems);
+        eventService.OnCheckGemBalance.RemoveListener(CheckGemBalance);
+        eventService.OnGenerateRewards.RemoveListener(AddRewards);
+        eventService.OnGenerateRewards.RemoveListener(SetRewardsMessage);
     }
     private void CheckGemBalance(int requiredGems, Action<bool> responseCallback)
-    { 
-        bool hasEnoughGems = gems >= requiredGems; 
-        Debug.Log($"Checking if player has enough gems: {gems} available, {requiredGems} required"); responseCallback.Invoke(hasEnoughGems); 
+    {
+        bool hasEnoughGems = gems >= requiredGems;
     }
     private void DeductGems(int amount)
     {
         gems -= amount;
         gemsText.text = gems.ToString();
     }
-    private void UpdateGems(int newGemCount)
-    {
-        gems = newGemCount; 
-        gemsText.text = gems.ToString();
-    }
-    private void AddRewards(int coins , int gems)
+    private void AddRewards(int coins, int gems)
     {
         this.coins += coins;
         this.gems += gems;
-        UpdateCoinsText(); 
+        UpdateCoinsText();
         UpdateGemsText();
     }
     public void SetRewardsMessage(int coins, int gems)
@@ -93,7 +85,10 @@ public class ChestUIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay); messageBox.SetActive(false);
     }
-
     private void UpdateCoinsText() { coinsText.text = coins.ToString(); }
     private void UpdateGemsText() { gemsText.text = gems.ToString(); }
+    private void OnDisable()
+    {
+        UnRegisterEventListeners();
+    }
 }

@@ -11,6 +11,7 @@ public class ChestService
     private ChestController currentChestController;
     private Queue<ChestController> chestUnlockQueue;
     private ChestController currentUnlockingChest;
+    private bool isTimerUnlocking;
     public ChestService(ChestSlotView[] chestSlots, ChestSO chestSO, ChestView chestView, EventService eventService)
     {
         this.chestSlots = chestSlots;
@@ -87,6 +88,7 @@ public class ChestService
             else
             {
                 currentChestController.ChangeChestState(ChestStates.QUEUED);
+
                 chestUnlockQueue.Enqueue(currentChestController);
             }
         }
@@ -97,7 +99,7 @@ public class ChestService
     }
     private void OnChestUnlockFinished(ChestController chestController)
     {
-        Debug.Log("Chest unlocked: " + chestController.ToString());
+        isTimerUnlocking = false;
         currentUnlockingChest = null;
         chestController.ChangeChestState(ChestStates.UNLOCKED);
         ProcessUnlockQueue();
@@ -105,6 +107,7 @@ public class ChestService
     private void StartUnlockingChest(ChestController chestController)
     {
         currentUnlockingChest = chestController;
+        isTimerUnlocking = true;
         chestController.ChangeChestState(ChestStates.UNLOCKING);
     }
     private void HandleUnlockWithGems()
@@ -119,8 +122,28 @@ public class ChestService
                     eventService.OnDeductGems.Invoke(gemsRequired);
                     currentChestController.ChangeChestState(ChestStates.UNLOCKED);
                     currentChestController.chestView.SetChestStatus("Unlocked");
-                    OnChestUnlockFinished(currentChestController);
-                    ProcessUnlockQueue();
+
+                    // Check if the chest being unlocked with gems is currently unlocking with a timer
+                    if (currentChestController == currentUnlockingChest)
+                    {
+                        // Process the queue only if the chest being unlocked with gems was already unlocking with a timer
+                        OnChestUnlockFinished(currentChestController);
+                    }
+                    else
+                    {
+                        // Handle direct unlock without affecting the queue
+                        currentChestController.ChangeChestState(ChestStates.UNLOCKED);
+                        currentChestController.chestView.SetChestStatus("Unlocked");
+                        GenerateRewards();
+                        currentChestController.GetChestSlotController().SetChestSlotState(ChestSlotState.EMPTY);
+
+                        // Check if chestView is not null before destroying it
+                        if (currentChestController != null && currentChestController.chestView != null)
+                        {
+                            GameObject.Destroy(currentChestController.chestView.gameObject);
+                        }
+                        currentChestController = null;
+                    }
                 }
                 else
                 {

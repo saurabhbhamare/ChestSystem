@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestStateMachine 
+public class ChestStateMachine
 {
     private ChestController Owner;
     private IState currentState;
@@ -23,7 +23,7 @@ public class ChestStateMachine
     }
     private void SetOwner()
     {
-        foreach(IState state in States.Values)
+        foreach (IState state in States.Values)
         {
             state.Owner = Owner;
         }
@@ -45,5 +45,5 @@ public class ChestStateMachine
         }
         throw new KeyNotFoundException("The specified value was not found in the dictionary.");
     }
-    public void ChangeChestState(ChestStates newState)=> ChangeState(States[newState]);
+    public void ChangeChestState(ChestStates newState) => ChangeState(States[newState]);
 }

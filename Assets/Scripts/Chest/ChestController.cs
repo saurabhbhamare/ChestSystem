@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestController 
+public class ChestController
 {
     public ChestView chestView;
     public ChestModel chestModel;
@@ -10,7 +10,7 @@ public class ChestController
     public EventService eventService;
     private ChestStateMachine chestStateMachine;
 
-  public ChestController(ChestData chestData,ChestView chestView,Transform parentTransform, EventService eventService,ChestSlotController chestSlotController)
+    public ChestController(ChestData chestData, ChestView chestView, Transform parentTransform, EventService eventService, ChestSlotController chestSlotController)
     {
         chestModel = new ChestModel(chestData);
         this.chestView = GameObject.Instantiate<ChestView>(chestView, parentTransform);
@@ -27,15 +27,15 @@ public class ChestController
     public ChestStates GetChestState() => chestStateMachine.GetCurrentState();
     public void SetChestName()
     {
-        if(chestModel.ChestType == ChestType.COMMON)
+        if (chestModel.ChestType == ChestType.COMMON)
         {
             chestView.SetChestName("COMMON");
         }
-        else if(chestModel.ChestType == ChestType.EPIC)
+        else if (chestModel.ChestType == ChestType.EPIC)
         {
             chestView.SetChestName("EPIC");
         }
-        else if(chestModel.ChestType == ChestType.LEGENDARY)
+        else if (chestModel.ChestType == ChestType.LEGENDARY)
         {
             chestView.SetChestName("LEGENDARY");
         }

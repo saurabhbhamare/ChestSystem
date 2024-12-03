@@ -10,22 +10,11 @@ public class StateUnlocked : IState
     {
         this.chestStateMachine = chestStateMachine;
     }
-
     public void OnStateEnter()
     {
         Owner.chestView.SetChestImage(Owner.chestModel.ChestOpenedImage);
         Owner.chestView.SetChestStatus("Unlocked");
-       
-
     }
-
-    public void OnStateExit()
-    {
-       
-    }
-
-    public void Update()
-    {
-   
-    }
+    public void OnStateExit() { }
+    public void Update() { }
 }
