@@ -19,7 +19,6 @@ public class EventService
     public EventController<ChestController> OnRemovingChest;
     public EventController<ChestController> OnChestUnlockFinished;
     public EventController<int, int> OnGenerateRewards;
-  //  public EventController<string> OnRewardsGenerate;
     public EventService()
     {
         OnGenerateButtonPressed = new EventController();
@@ -35,6 +34,5 @@ public class EventService
         OnRemovingChest = new EventController<ChestController>();
         OnUnlockingChestClicked = new EventController<ChestController>();
         OnChestUnlockFinished = new EventController<ChestController>();
-      //  OnRewardsGenerate = new EventController<string>();
     }
 }

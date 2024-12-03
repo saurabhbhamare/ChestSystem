@@ -119,8 +119,27 @@ public class ChestService
                     eventService.OnDeductGems.Invoke(gemsRequired);
                     currentChestController.ChangeChestState(ChestStates.UNLOCKED);
                     currentChestController.chestView.SetChestStatus("Unlocked");
-                    OnChestUnlockFinished(currentChestController);
-                    ProcessUnlockQueue();
+
+                    // Check if the chest being unlocked with gems is currently unlocking with a timer
+                    if (currentChestController == currentUnlockingChest)
+                    {
+                        // Process the queue only if the chest being unlocked with gems was already unlocking with a timer
+                        OnChestUnlockFinished(currentChestController);
+                    }
+                    else
+                    {
+                        
+                        currentChestController.ChangeChestState(ChestStates.UNLOCKED);
+                        currentChestController.chestView.SetChestStatus("Unlocked");
+                        GenerateRewards();
+                        currentChestController.GetChestSlotController().SetChestSlotState(ChestSlotState.EMPTY);
+
+                        if (currentChestController != null && currentChestController.chestView != null)
+                        {
+                            GameObject.Destroy(currentChestController.chestView.gameObject);
+                        }
+                        currentChestController = null;
+                    }
                 }
                 else
                 {
