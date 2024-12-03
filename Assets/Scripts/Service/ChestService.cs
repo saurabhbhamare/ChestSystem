@@ -55,7 +55,7 @@ public class ChestService
     }
     public ChestData GetRandomChestData() => chestSO.chests[Random.Range(0, chestSO.chests.Length)];
     private void HandleChestClick(ChestController chestController)
-    {
+     {
         if (chestController == null) { return; }
         
         currentChestController = chestController;

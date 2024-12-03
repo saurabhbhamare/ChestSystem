@@ -31,6 +31,7 @@ public class ChestInteractionBoxController
     public void ShowUnlockingStateNotificationPanel(ChestController chestController)
     {
         chestInteractionBoxView.gameObject.SetActive(true);
+        chestInteractionBoxView.SetNotificationTitle(chestController.chestModel.ChestType.ToString());
         chestInteractionBoxView.SetGemsButtonText(chestController.chestModel.GemsAmoundToOpen.ToString()+"Gems");
         chestInteractionBoxView.DisableTimeButton(); 
     }
