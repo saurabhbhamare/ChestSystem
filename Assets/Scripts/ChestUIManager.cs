@@ -14,7 +14,9 @@ public class ChestUIManager : MonoBehaviour
     [SerializeField] private ChestSO chestSO;
     [SerializeField] private ChestView chestView;
     [SerializeField] private ChestInteractionBoxView chestInteractionBoxView;
-  //  [SerializeField] private GameObject msgBox;
+    [SerializeField] private TextMeshProUGUI messageText;
+    [SerializeField] private GameObject messageBox;
+    //  [SerializeField] private GameObject msgBox;
     [SerializeField] private int queueCount;
 
     [Header("ChestSlots")]
@@ -39,16 +41,20 @@ public class ChestUIManager : MonoBehaviour
         eventService = new EventService();
         chestInteractionBoxController = new ChestInteractionBoxController(eventService,chestInteractionBoxView);
         chestService = new ChestService(chestSlots, chestSO, chestView, eventService);
-        generateChestButton.onClick.AddListener(OnGenerateButtonClick);
-        eventService.OnDeductGems.AddListener(DeductGems);
-        eventService.OnCheckGemBalance.AddListener(CheckGemBalance);
-        eventService.OnGenerateRewards.AddListener(AddRewards);
-        //RegisterEventListeners();
+        RegisterEventListeners();
     }
     private void OnGenerateButtonClick()
     {
         eventService.OnGenerateButtonPressed.Invoke();
         Debug.Log("invoked Ongeneratepress");
+    }
+    private void RegisterEventListeners()
+    {
+        generateChestButton.onClick.AddListener(OnGenerateButtonClick);
+        eventService.OnDeductGems.AddListener(DeductGems);
+        eventService.OnCheckGemBalance.AddListener(CheckGemBalance);
+        eventService.OnGenerateRewards.AddListener(AddRewards);
+        eventService.OnGenerateRewards.AddListener(SetRewardsMessage);
     }
     private void OnDisable()
     {
@@ -76,6 +82,18 @@ public class ChestUIManager : MonoBehaviour
         UpdateCoinsText(); 
         UpdateGemsText();
     }
+    public void SetRewardsMessage(int coins, int gems)
+    {
+        messageBox.SetActive(true);
+        messageText.text = ("You have recieved  " + coins + " Coins " + " and " + gems + " Gems");
+        StartCoroutine(HideNotificationAfterDelay(4f));
+
+    }
+    private IEnumerator HideNotificationAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); messageBox.SetActive(false);
+    }
+
     private void UpdateCoinsText() { coinsText.text = coins.ToString(); }
     private void UpdateGemsText() { gemsText.text = gems.ToString(); }
 }

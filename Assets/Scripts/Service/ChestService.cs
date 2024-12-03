@@ -11,8 +11,6 @@ public class ChestService
     private ChestController currentChestController;
     private Queue<ChestController> chestUnlockQueue;
     private ChestController currentUnlockingChest;
-    private int queueCount = 2;
-
     public ChestService(ChestSlotView[] chestSlots, ChestSO chestSO, ChestView chestView, EventService eventService)
     {
         this.chestSlots = chestSlots;
@@ -56,25 +54,13 @@ public class ChestService
         return null;
     }
     public ChestData GetRandomChestData() => chestSO.chests[Random.Range(0, chestSO.chests.Length)];
-    private void UnRegisterEventListener()
-    {
-        eventService.OnGenerateButtonPressed.RemoveListener(GenerateNewChest);
-        eventService.OnChestClick.RemoveListener(HandleChestClick);
-        eventService.OnTimeUnlockButtonClicked.RemoveListener(UnlockWithTimer);
-        eventService.OnGemsButtonClicked.RemoveListener(HandleUnlockWithGems);
-        eventService.OnChestUnlockFinished.RemoveListener(OnChestUnlockFinished);
-    }
     private void HandleChestClick(ChestController chestController)
     {
+        if (chestController == null) { return; }
         currentChestController = chestController;
-        Debug.Log("Current clicked Chest Controller chest State" + currentChestController.GetChestState().ToString());
         if (chestController.GetChestState() == ChestStates.LOCKED)
         {
             eventService.OnLockedChestClicked.Invoke(chestController);
-        }
-        else if (chestController.GetChestState() == ChestStates.QUEUED)
-        {
-            //  eventService.OnQueuedChestClicked.Invoke();
         }
         else if (chestController.GetChestState() == ChestStates.UNLOCKING)
         {
@@ -84,18 +70,14 @@ public class ChestService
         else if (chestController.GetChestState() == ChestStates.UNLOCKED)
         {
             GenerateRewards();
-           // eventService.OnRemovingChest.Invoke(chestController);
-            GameObject.Destroy(chestController.chestView.gameObject);
             chestController.GetChestSlotController().SetChestSlotState(ChestSlotState.EMPTY);
-            chestController = null;
             currentChestController = null;
+            GameObject.Destroy(chestController.chestView.gameObject);
+            chestController = null;
         }
     }
-    //private void UnlockWithTimer() => currentChestController.ChangeChestState(ChestStates.UNLOCKING);
-
     private void UnlockWithTimer()
     {
-        // Check if the current chest controller is the one clicked and if it is locked
         if (currentChestController != null && currentChestController.GetChestState() == ChestStates.LOCKED)
         {
             if (currentUnlockingChest == null)
@@ -120,7 +102,6 @@ public class ChestService
         chestController.ChangeChestState(ChestStates.UNLOCKED);
         ProcessUnlockQueue();
     }
-
     private void StartUnlockingChest(ChestController chestController)
     {
         currentUnlockingChest = chestController;
@@ -128,19 +109,14 @@ public class ChestService
     }
     private void HandleUnlockWithGems()
     {
-        Debug.Log("Running handle ulock with gems");
         if (currentChestController != null)
         {
             int gemsRequired = currentChestController.chestModel.GemsAmoundToOpen;
-            Debug.Log("Required gems are" + gemsRequired);
             eventService.OnCheckGemBalance.Invoke(gemsRequired, hasEnoughGems =>
             {
-                Debug.Log("OnCheckGemBalance inside");
                 if (hasEnoughGems)
                 {
-                    Debug.Log("inside hasEnoughGems");
                     eventService.OnDeductGems.Invoke(gemsRequired);
-                    Debug.Log("Unlocked with gems in HandleUnlockWithGems");
                     currentChestController.ChangeChestState(ChestStates.UNLOCKED);
                     currentChestController.chestView.SetChestStatus("Unlocked");
                     OnChestUnlockFinished(currentChestController);
@@ -153,13 +129,6 @@ public class ChestService
             });
         }
     }
-
-    //private void OnChestUnlockFinished(ChestController chestController)
-    //{
-    //    currentUnlockingChest = null;
-    //    ProcessUnlockQueue();
-    //}
-
     private void ProcessUnlockQueue()
     {
         if (currentUnlockingChest == null && chestUnlockQueue.Count > 0)
@@ -180,7 +149,7 @@ public class ChestService
                 rewardedGems = Random.Range(5, 20);
                 break;
             case ChestType.RARE:
-                rewardedCoins = Random.Range(100, 200);
+                rewardedCoins = Random.Range(100, 150);
                 rewardedGems = Random.Range(20, 50);
                 break;
             case ChestType.EPIC:
@@ -196,6 +165,14 @@ public class ChestService
                 break;
         }
         eventService.OnGenerateRewards.Invoke(rewardedCoins, rewardedGems);
+    }
+    private void UnRegisterEventListener()
+    {
+        eventService.OnGenerateButtonPressed.RemoveListener(GenerateNewChest);
+        eventService.OnChestClick.RemoveListener(HandleChestClick);
+        eventService.OnTimeUnlockButtonClicked.RemoveListener(UnlockWithTimer);
+        eventService.OnGemsButtonClicked.RemoveListener(HandleUnlockWithGems);
+        eventService.OnChestUnlockFinished.RemoveListener(OnChestUnlockFinished);
     }
     ~ChestService()
     {

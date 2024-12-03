@@ -20,7 +20,6 @@ public class ChestStateMachine
         States.Add(ChestStates.UNLOCKED, new StateUnlocked(this));
         States.Add(ChestStates.UNLOCKING, new StateUnlocking(this));
         States.Add(ChestStates.QUEUED, new StateQueued(this));
-
     }
     private void SetOwner()
     {

@@ -8,9 +8,6 @@ public class ChestController
     public ChestModel chestModel;
     private ChestSlotController chestSlotController;
     public EventService eventService;
-
-    //chest state machine
-
     private ChestStateMachine chestStateMachine;
 
   public ChestController(ChestData chestData,ChestView chestView,Transform parentTransform, EventService eventService,ChestSlotController chestSlotController)
@@ -19,7 +16,6 @@ public class ChestController
         this.chestView = GameObject.Instantiate<ChestView>(chestView, parentTransform);
         this.eventService = eventService;
         this.chestSlotController = chestSlotController;
-        //SetChestName();
         CreateChestStateMachine();
         ChangeChestState(ChestStates.LOCKED);
         this.chestView.SetChestStatus("Locked");
