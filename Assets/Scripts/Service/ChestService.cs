@@ -57,6 +57,7 @@ public class ChestService
     private void HandleChestClick(ChestController chestController)
     {
         if (chestController == null) { return; }
+        
         currentChestController = chestController;
         if (chestController.GetChestState() == ChestStates.LOCKED)
         {
@@ -71,8 +72,8 @@ public class ChestService
         {
             GenerateRewards();
             chestController.GetChestSlotController().SetChestSlotState(ChestSlotState.EMPTY);
+            if (chestController.chestView != null) { GameObject.Destroy(chestController.chestView.gameObject); }
             currentChestController = null;
-            GameObject.Destroy(chestController.chestView.gameObject);
             chestController = null;
         }
     }
