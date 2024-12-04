@@ -15,8 +15,6 @@ public class StateUnlocked : IState
     {
         Owner.chestView.SetChestImage(Owner.chestModel.ChestOpenedImage);
         Owner.chestView.SetChestStatus("Unlocked");
-       
-
     }
 
     public void OnStateExit()

@@ -39,5 +39,15 @@ public class ChestInteractionBoxController
     {
         chestInteractionBoxView.SetRewardsPanelActive();
     }
+    private void UnRegisterEventListeners()
+    {
+        eventService.OnLockedChestClicked.RemoveListener(ShowLockedStateNotificationPanel);
+        eventService.OnUnlockingChestClicked.RemoveListener(ShowUnlockingStateNotificationPanel);
+        eventService.OnUnlockedChestClicked.RemoveListener(ShowUnlockedStateNotification);
+    }
     public void DisableNotificationPanel() => chestInteractionBoxView.gameObject.SetActive(false);
+    ~ChestInteractionBoxController()
+    {
+        UnRegisterEventListeners();
+    }
 }

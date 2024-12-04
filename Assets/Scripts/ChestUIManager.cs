@@ -16,19 +16,13 @@ public class ChestUIManager : MonoBehaviour
     [SerializeField] private ChestInteractionBoxView chestInteractionBoxView;
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private GameObject messageBox;
-    //  [SerializeField] private GameObject msgBox;
     [SerializeField] private int queueCount;
 
     [Header("ChestSlots")]
     [SerializeField] ChestSlotView[] chestSlots;
-    //scripts
-
     private ChestInteractionBoxController chestInteractionBoxController;
     private ChestService chestService;
     private EventService eventService;
-
-
-  //  private UserInteractionService;
     private void Start()
     {
         InitAllChestUIElements();
@@ -56,10 +50,7 @@ public class ChestUIManager : MonoBehaviour
         eventService.OnGenerateRewards.AddListener(AddRewards);
         eventService.OnGenerateRewards.AddListener(SetRewardsMessage);
     }
-    private void OnDisable()
-    {
-        
-    }
+ 
     private void CheckGemBalance(int requiredGems, Action<bool> responseCallback)
     { 
         bool hasEnoughGems = gems >= requiredGems; 
@@ -68,11 +59,6 @@ public class ChestUIManager : MonoBehaviour
     private void DeductGems(int amount)
     {
         gems -= amount;
-        gemsText.text = gems.ToString();
-    }
-    private void UpdateGems(int newGemCount)
-    {
-        gems = newGemCount; 
         gemsText.text = gems.ToString();
     }
     private void AddRewards(int coins , int gems)
@@ -87,7 +73,6 @@ public class ChestUIManager : MonoBehaviour
         messageBox.SetActive(true);
         messageText.text = ("You have recieved  " + coins + " Coins " + " and " + gems + " Gems");
         StartCoroutine(HideNotificationAfterDelay(4f));
-
     }
     private IEnumerator HideNotificationAfterDelay(float delay)
     {
@@ -96,4 +81,16 @@ public class ChestUIManager : MonoBehaviour
 
     private void UpdateCoinsText() { coinsText.text = coins.ToString(); }
     private void UpdateGemsText() { gemsText.text = gems.ToString(); }
+    private void UnRegisterEventListeners()
+    {
+        generateChestButton.onClick.RemoveListener(OnGenerateButtonClick);
+        eventService.OnDeductGems.RemoveListener(DeductGems);
+        eventService.OnCheckGemBalance.RemoveListener(CheckGemBalance);
+        eventService.OnGenerateRewards.RemoveListener(AddRewards);
+        eventService.OnGenerateRewards.RemoveListener(SetRewardsMessage);
+    }
+    private void OnDisable()
+    {
+        UnRegisterEventListeners();
+    }
 }

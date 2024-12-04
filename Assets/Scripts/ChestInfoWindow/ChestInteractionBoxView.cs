@@ -26,7 +26,6 @@ public class ChestInteractionBoxView : MonoBehaviour
     private void OnEnable()
     {
         RegisterEventListenersForButtons();
-        notificationCloseButton.onClick.AddListener(OnClosePanelClick);
     }
     public void Init(EventService eventService, ChestInteractionBoxController chestInteractionBoxController)
     {
@@ -35,6 +34,7 @@ public class ChestInteractionBoxView : MonoBehaviour
     }
     private void RegisterEventListenersForButtons()
     {
+        notificationCloseButton.onClick.AddListener(OnClosePanelClick);
         notificationTimeButton.onClick.AddListener(OnTimeButtonClick);
         notificationGemsButton.onClick.AddListener(OnGemsButtonClick);
     }

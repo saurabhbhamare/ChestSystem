@@ -186,7 +186,7 @@ public class ChestService
         }
         eventService.OnGenerateRewards.Invoke(rewardedCoins, rewardedGems);
     }
-    private void UnRegisterEventListener()
+    private void UnRegisterEventListeners()
     {
         eventService.OnGenerateButtonPressed.RemoveListener(GenerateNewChest);
         eventService.OnChestClick.RemoveListener(HandleChestClick);
@@ -196,6 +196,6 @@ public class ChestService
     }
     ~ChestService()
     {
-        UnRegisterEventListener();
+        UnRegisterEventListeners();
     }
 }
